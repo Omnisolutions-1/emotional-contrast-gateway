@@ -1,0 +1,8 @@
+{
+  "literal_magnitude_threshold": 0.15,
+  "dimension_map": [
+    {"label": "valence",    "pos_mode": "empathetic",   "neg_mode": "guarded"},
+    {"label": "activation", "pos_mode": "creative",     "neg_mode": "skeptical"},
+    {"label": "depth",      "pos_mode": "analytical",   "neg_mode": "reflective"}
+  ]
+}
