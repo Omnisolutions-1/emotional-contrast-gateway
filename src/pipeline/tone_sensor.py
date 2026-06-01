@@ -13,11 +13,14 @@ class ToneMatrixSensor:
         self.shift_constant = 0.05
         self._max_magnitude = self._compute_max_magnitude()
 
-    def _compute_max_magnitude(self) -> float:
-        total = [0.0, 0.0, 0.0]
+        def _compute_true_max_magnitude(self) -> float:
+        """Computes the true maximum Euclidean norm of the combined vector space."""
+        total_vector = [0.0, 0.0, 0.0]
         for vec in self.mock_matrix.values():
-            total = [t + v * self.shift_constant for t, v in zip(total, vec)]
-        return math.sqrt(sum(x**2 for x in total))
+            for i in range(3):
+                total_vector[i] += vec[i] * self.shift_constant
+        return math.sqrt(sum(x**2 for x in total_vector))
+
 
     def get_max_magnitude(self) -> float:
         return self._max_magnitude
