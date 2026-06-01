@@ -17,7 +17,15 @@ class ParadoxGuard:
         else:
             tone_magnitude = raw_tone_mag
 
-        # DeepSeek Test Case 1 Note: Intent complexity length scaling bound
+        # FIXED: Directly flags neutral input as safe, bypassing length false-positives
+        if tone_magnitude == 0.0:
+            return {
+                "variance_gap": 0.0,
+                "paradox_state": False,
+                "status": "Status: Nominal"
+            }
+
+        # Intent complexity length scaling bound
         intent_complexity = min(len(raw_intent) / 100.0, 1.0)
         variance_gap = abs(tone_magnitude - intent_complexity)
         is_paradox = variance_gap > self.threshold
@@ -27,3 +35,4 @@ class ParadoxGuard:
             "paradox_state": is_paradox,
             "status": "ALERT: Paradox Detected" if is_paradox else "Status: Nominal"
         }
+
